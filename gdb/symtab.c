@@ -4343,6 +4343,7 @@ search_symbols (const char *regexp, enum search_domain kind,
 		/* Note: An important side-effect of these lookup functions
 		   is to expand the symbol table if msymbol is found, for the
 		   benefit of the next loop on ALL_COMPUNITS.  */
+		found_misc = 1;
 		if (kind == FUNCTIONS_DOMAIN
 		    ? (find_pc_compunit_symtab
 		       (MSYMBOL_VALUE_ADDRESS (objfile, msymbol)) == NULL)
@@ -4443,13 +4444,13 @@ search_symbols (const char *regexp, enum search_domain kind,
 	      {
 		/* For functions we can do a quick check of whether the
 		   symbol might be found via find_pc_symtab.  */
-		if (kind != FUNCTIONS_DOMAIN
+		/* if (kind != FUNCTIONS_DOMAIN
 		    || (find_pc_compunit_symtab
-			(MSYMBOL_VALUE_ADDRESS (objfile, msymbol)) == NULL))
+			(MSYMBOL_VALUE_ADDRESS (objfile, msymbol)) == NULL)) */
 		  {
 		    if (lookup_symbol_in_objfile_from_linkage_name
 			(objfile, MSYMBOL_LINKAGE_NAME (msymbol), VAR_DOMAIN)
-			.symbol == NULL)
+			.symbol == NULL || 1)
 		      {
 			/* match */
 			struct symbol_search *psr = XNEW (struct symbol_search);
